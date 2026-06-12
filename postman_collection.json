@@ -1,0 +1,137 @@
+{
+  "info": {
+    "name": "Travel Deal API - Full Test Cases",
+    "_postman_id": "d92c1f1a-1111-4444-8888-abcdef123456",
+    "description": "Includes success and error test cases for Travel Deals API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+
+    {
+      "name": "Add Deal - Success",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"destination\": \"Dubai\",\n  \"price\": 5000,\n  \"platform\": \"Booking\",\n  \"rating\": 4.5,\n  \"travel_type\": \"Luxury\"\n}"
+        },
+        "url": "http://localhost:5000/deals"
+      }
+    },
+
+    {
+      "name": "Add Deal - Missing Destination",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"price\": 5000,\n  \"rating\": 4.5,\n  \"travel_type\": \"Luxury\"\n}"
+        },
+        "url": "http://localhost:5000/deals"
+      }
+    },
+
+    {
+      "name": "Add Deal - Negative Price",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"destination\": \"Dubai\",\n  \"price\": -100,\n  \"rating\": 4.5,\n  \"travel_type\": \"Luxury\"\n}"
+        },
+        "url": "http://localhost:5000/deals"
+      }
+    },
+
+    {
+      "name": "Add Deal - Invalid Rating",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"destination\": \"Dubai\",\n  \"price\": 5000,\n  \"rating\": 6,\n  \"travel_type\": \"Luxury\"\n}"
+        },
+        "url": "http://localhost:5000/deals"
+      }
+    },
+
+    {
+      "name": "Add Deal - Invalid Travel Type",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"destination\": \"Dubai\",\n  \"price\": 5000,\n  \"rating\": 4,\n  \"travel_type\": \"VIP\"\n}"
+        },
+        "url": "http://localhost:5000/deals"
+      }
+    },
+
+    {
+      "name": "Add Deal - Empty Platform",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"destination\": \"Dubai\",\n  \"price\": 5000,\n  \"platform\": \"\",\n  \"rating\": 4,\n  \"travel_type\": \"Luxury\"\n}"
+        },
+        "url": "http://localhost:5000/deals"
+      }
+    },
+
+    {
+      "name": "Get All Deals - Success",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals"
+      }
+    },
+
+    {
+      "name": "Get Single Deal - Success",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/1"
+      }
+    },
+
+    {
+      "name": "Get Single Deal - Not Found",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/9999"
+      }
+    },
+
+    {
+      "name": "Get Single Deal - Invalid ID (String)",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/abc"
+      }
+    },
+
+    {
+      "name": "Get Single Deal - Invalid ID (Negative)",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/-1"
+      }
+    },
+
+    {
+      "name": "Method Not Allowed",
+      "request": {
+        "method": "PUT",
+        "url": "http://localhost:5000/deals"
+      }
+    }
+
+  ]
+}

@@ -17,6 +17,7 @@ travel-deal-MS/
 ├── database/
 │   └── db.py           # SQLAlchemy setup & table creation (ORM)
 ├── requirements.txt
+├── postman_collection.json
 └── README.md
 
 ```
