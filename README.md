@@ -15,7 +15,7 @@ travel-deal-MS/
 │   ├── validators.py   # Reusable validation functions
 │   └── responses.py    # Standard JSON response helpers
 ├── database/
-│   └── db.py           # SQLite connection & table creation
+│   └── db.py           # SQLAlchemy setup & table creation (ORM)
 ├── requirements.txt
 └── README.md
 
@@ -45,7 +45,7 @@ pip install -r requirements.txt
 ```bash
 python app.py
 ```
-The SQLite database file (`travel_deals.db`) and the `deals` table are created automatically on first run. Server runs at `http://localhost:5000`.
+The SQLite database file (`travel_deals.db`) and the `deals` table are created automatically on first run. Server runs at `http://localhost:5000`.  
 
 ## API Endpoints
 

@@ -7,6 +7,9 @@ from utils.responses import error_response
 def create_app():
     app = Flask(__name__)
 
+    # Initialize SQLAlchemy + create tables
+    init_db(app)
+
     # Register the deals blueprint (routes layer)
     app.register_blueprint(deals_bp)
 
@@ -32,9 +35,4 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-
-    # Initialize SQLite database (creates table if not exists)
-    init_db()
-    print("Database initialized successfully.")
-
     app.run(debug=True, host="0.0.0.0", port=5000)
