@@ -27,30 +27,15 @@ def create_deal(data):
         conn.close()
 
 
-def get_all_deals(filters=None):
-    """Return all travel deals, optionally filtered by travel_type or platform."""
-    filters = filters or {}
-    query = "SELECT id, destination, price, platform, rating, travel_type, created_at FROM deals"
-    conditions = []
-    params = []
-
-    if filters.get("travel_type"):
-        conditions.append("travel_type = ?")
-        params.append(filters["travel_type"])
-
-    if filters.get("platform"):
-        conditions.append("platform = ?")
-        params.append(filters["platform"])
-
-    if conditions:
-        query += " WHERE " + " AND ".join(conditions)
-
-    query += " ORDER BY id ASC;"
+def get_all_deals():
+    """Return all travel deals."""
+    query = "SELECT id, destination, price, platform, rating, travel_type, created_at FROM deals ORDER BY id ASC;"
 
     conn = get_connection()
     cur = conn.cursor()
     try:
-        cur.execute(query, tuple(params))
+        # No parameters needed since there is no WHERE clause anymore
+        cur.execute(query)
         rows = cur.fetchall()
         return [dict(row) for row in rows]
     finally:

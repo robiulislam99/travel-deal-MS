@@ -24,14 +24,9 @@ def add_deal():
 
 @deals_bp.route("/deals", methods=["GET"])
 def list_deals():
-    """Get all travel deals, optionally filtered by travel_type/platform."""
-    filters = {
-        "travel_type": request.args.get("travel_type"),
-        "platform": request.args.get("platform"),
-    }
-
+    """Get all travel deals."""
     try:
-        deals = deal_service.get_all_deals(filters)
+        deals = deal_service.get_all_deals()
         return success_response(data=deals, message="Deals retrieved successfully", status_code=200)
     except Exception as e:
         return error_response(message="Failed to retrieve deals", errors=str(e), status_code=500)
