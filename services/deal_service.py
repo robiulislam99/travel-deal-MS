@@ -119,3 +119,47 @@ def sort_deals(sort_by, order):
     return [deal.to_dict() for deal in query.all()]
 
 
+# -------------------- Part 02: Recently Viewed --------------------
+
+class RecentView(db.Model):
+    """Tracks every time a single deal is viewed via GET /deals/<id>."""
+    __tablename__ = "recent_views"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    deal_id = db.Column(db.Integer, db.ForeignKey("deals.id"), nullable=False)
+    viewed_at = db.Column(db.DateTime, server_default=db.func.now())
+
+def record_deal_view(deal_id):
+    """Record that a deal was viewed (called from GET /deals/<id>)."""
+    view = RecentView(deal_id=deal_id)
+    db.session.add(view)
+    db.session.commit()
+
+
+def get_recently_viewed_deals(limit=5):
+    """Return the most recently viewed deals (most recent first, no duplicates)."""
+    subquery = (
+        db.session.query(
+            RecentView.deal_id,
+            db.func.max(RecentView.viewed_at).label("last_viewed"),
+        )
+        .group_by(RecentView.deal_id)
+        .order_by(db.desc("last_viewed"))
+        .limit(limit)
+        .subquery()
+    )
+
+    results = (
+        db.session.query(Deal, subquery.c.last_viewed)
+        .join(subquery, Deal.id == subquery.c.deal_id)
+        .order_by(subquery.c.last_viewed.desc())
+        .all()
+    )
+
+    deals = []
+    for deal, last_viewed in results:
+        deal_dict = deal.to_dict()
+        deal_dict["last_viewed_at"] = last_viewed.isoformat() if last_viewed else None
+        deals.append(deal_dict)
+
+    return deals

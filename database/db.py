@@ -15,5 +15,5 @@ def init_db(app):
     db.init_app(app)
 
     with app.app_context():
-        from services.deal_service import Deal  # noqa: F401
+        from services.deal_service import Deal, RecentView  # noqa: F401
         db.create_all()
