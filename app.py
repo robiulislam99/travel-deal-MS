@@ -1,4 +1,5 @@
 from flask import Flask
+from utils.logger import logger  # noqa: F401 - configures logging on import
 from routes.deal_routes import deals_bp
 from database.db import init_db
 from utils.responses import error_response
