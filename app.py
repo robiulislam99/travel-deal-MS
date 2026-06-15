@@ -1,4 +1,6 @@
 from flask import Flask
+from config import Config
+from utils.logger import logger  # noqa: F401 - configures logging on import
 from routes.deal_routes import deals_bp
 from database.db import init_db
 from utils.responses import error_response
@@ -6,6 +8,9 @@ from utils.responses import error_response
 
 def create_app():
     app = Flask(__name__)
+
+    app.config.from_object(Config)
+
 
     # Initialize SQLAlchemy + create tables
     init_db(app)

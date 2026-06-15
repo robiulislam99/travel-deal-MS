@@ -1,0 +1,173 @@
+{
+  "info": {
+    "name": "Travel Deal API - Part 02",
+    "_postman_id": "8c1d2f11-2f3a-4b2c-9c11-abcdef123456",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Add Travel Deal",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"destination\": \"Dubai\",\n  \"price\": 5000,\n  \"platform\": \"Booking\",\n  \"rating\": 4.5,\n  \"travel_type\": \"Luxury\"\n}"
+        },
+        "url": "http://localhost:5000/deals"
+      }
+    },
+    {
+      "name": "Add Travel Deal - Validation Error",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"destination\": \"\",\n  \"price\": -100,\n  \"platform\": \"Booking\",\n  \"rating\": 8,\n  \"travel_type\": \"Cheap\"\n}"
+        },
+        "url": "http://localhost:5000/deals"
+      }
+    },
+    {
+      "name": "Get All Deals",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals"
+      }
+    },
+    {
+      "name": "Get Single Deal",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/1"
+      }
+    },
+    {
+      "name": "Get Single Deal - Not Found",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/9999"
+      }
+    },
+    {
+      "name": "Get Single Deal - Invalid ID",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/abc"
+      }
+    },
+    {
+      "name": "Search - by destination",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/search?destination=dubai"
+      }
+    },
+    {
+      "name": "Search - by platform",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/search?platform=booking"
+      }
+    },
+    {
+      "name": "Search - by travel_type",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/search?travel_type=Luxury"
+      }
+    },
+    {
+      "name": "Search - No Match",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/search?destination=paris"
+      }
+    },
+    {
+      "name": "Search - Empty Params (Error)",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/search"
+      }
+    },
+    {
+      "name": "Search - Invalid travel_type (Error)",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/search?travel_type=Cheap"
+      }
+    },
+    {
+      "name": "Filter - by price range",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/filter?min_price=1000&max_price=5000"
+      }
+    },
+    {
+      "name": "Filter - min_price only",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/filter?min_price=2000"
+      }
+    },
+    {
+      "name": "Filter - Negative min_price (Error)",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/filter?min_price=-100"
+      }
+    },
+    {
+      "name": "Filter - max < min (Error)",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/filter?min_price=5000&max_price=1000"
+      }
+    },
+    {
+      "name": "Filter - No Params (Error)",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/filter"
+      }
+    },
+    {
+      "name": "Sort - price ascending",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/sort?sort_by=price&order=asc"
+      }
+    },
+    {
+      "name": "Sort - price descending",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/sort?sort_by=price&order=desc"
+      }
+    },
+    {
+      "name": "Sort - Invalid Field (Error)",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/sort?sort_by=foobar"
+      }
+    },
+    {
+      "name": "Sort - Invalid Order (Error)",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/sort?sort_by=price&order=updown"
+      }
+    },
+    {
+      "name": "Recently Viewed Deals",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/recent"
+      }
+    }
+  ]
+}
