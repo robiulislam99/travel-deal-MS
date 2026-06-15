@@ -6,3 +6,6 @@ __pycache__/
 travel_deals.db
 *.db
 .DS_Store
+
+logs/
+*.log
