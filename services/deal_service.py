@@ -1,28 +1,8 @@
 from database.db import db
+from database.models import Deal, RecentView
 
 
-class Deal(db.Model):
-    __tablename__ = "deals"
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    destination = db.Column(db.String, nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    platform = db.Column(db.String)
-    rating = db.Column(db.Float, nullable=False)
-    travel_type = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.DateTime, server_default=db.func.now())
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "destination": self.destination,
-            "price": self.price,
-            "platform": self.platform,
-            "rating": self.rating,
-            "travel_type": self.travel_type,
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-        }
-
+# -------------------- Part 01: Core CRUD --------------------
 
 def create_deal(data):
     """Insert a new travel deal into the database and return it."""
@@ -48,8 +28,6 @@ def get_deal_by_id(deal_id):
     """Return a single deal by id, or None if not found."""
     deal = Deal.query.get(deal_id)
     return deal.to_dict() if deal else None
-
-
 
 
 # -------------------- Part 02: Reusable Query Builder --------------------
@@ -120,14 +98,6 @@ def sort_deals(sort_by, order):
 
 
 # -------------------- Part 02: Recently Viewed --------------------
-
-class RecentView(db.Model):
-    """Tracks every time a single deal is viewed via GET /deals/<id>."""
-    __tablename__ = "recent_views"
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    deal_id = db.Column(db.Integer, db.ForeignKey("deals.id"), nullable=False)
-    viewed_at = db.Column(db.DateTime, server_default=db.func.now())
 
 def record_deal_view(deal_id):
     """Record that a deal was viewed (called from GET /deals/<id>)."""
