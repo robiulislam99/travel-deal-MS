@@ -1,7 +1,8 @@
-# Allowed travel_type values as per assignment requirements
 VALID_TRAVEL_TYPES = ["Budget", "Luxury", "Adventure", "Family"]
+VALID_SORT_FIELDS = ["price", "rating", "destination", "platform", "travel_type", "created_at"]
+VALID_ORDERS = ["asc", "desc"]
 
-
+#------------Part 1: Validation Functions------------#
 def validate_deal_data(data):
     """
     Validate incoming deal data.
@@ -65,3 +66,99 @@ def validate_deal_id(deal_id):
         return True, deal_id_int
     except (ValueError, TypeError):
         return False, None
+
+
+#------------Part 2: Validation Functions------------#
+
+def validate_search_params(args):
+    """
+    Validate query params for GET /deals/search
+    Returns (is_valid: bool, errors: dict)
+    """
+    errors = {}
+ 
+    destination = args.get("destination")
+    platform = args.get("platform")
+    travel_type = args.get("travel_type")
+ 
+    # Edge case: empty search -> at least one param must be provided & non-empty
+    if not any([
+        destination and destination.strip(),
+        platform and platform.strip(),
+        travel_type and travel_type.strip(),
+    ]):
+        errors["query"] = "Provide at least one search parameter: destination, platform or travel_type"
+ 
+    # Edge case: unknown travel type
+    if travel_type and travel_type not in VALID_TRAVEL_TYPES:
+        errors["travel_type"] = f"travel_type must be one of {VALID_TRAVEL_TYPES}"
+ 
+    return (len(errors) == 0), errors
+ 
+ 
+def validate_filter_params(args):
+    """
+    Validate query params for GET /deals/filter
+    Returns (is_valid: bool, errors: dict, min_price: float|None, max_price: float|None)
+    """
+    errors = {}
+    min_price_raw = args.get("min_price")
+    max_price_raw = args.get("max_price")
+ 
+    if min_price_raw is None and max_price_raw is None:
+        errors["query"] = "Provide at least one of min_price or max_price"
+        return False, errors, None, None
+ 
+    min_price = None
+    max_price = None
+ 
+    if min_price_raw is not None:
+        try:
+            min_price = float(min_price_raw)
+            if min_price < 0:
+                errors["min_price"] = "min_price cannot be negative"
+        except ValueError:
+            errors["min_price"] = "min_price must be a number"
+ 
+    if max_price_raw is not None:
+        try:
+            max_price = float(max_price_raw)
+            if max_price < 0:
+                errors["max_price"] = "max_price cannot be negative"
+        except ValueError:
+            errors["max_price"] = "max_price must be a number"
+ 
+    if (
+        min_price is not None
+        and max_price is not None
+        and "min_price" not in errors
+        and "max_price" not in errors
+        and max_price < min_price
+    ):
+        errors["max_price"] = "max_price cannot be smaller than min_price"
+ 
+    return (len(errors) == 0), errors, min_price, max_price
+ 
+ 
+def validate_sort_params(args):
+    """
+    Validate query params for GET /deals/sort
+    Returns (is_valid: bool, errors: dict, sort_by: str|None, order: str)
+    """
+    errors = {}
+    sort_by = args.get("sort_by")
+    order = args.get("order", "asc")
+ 
+    if order:
+        order = order.lower()
+ 
+    if not sort_by:
+        errors["sort_by"] = "sort_by is required"
+    elif sort_by not in VALID_SORT_FIELDS:
+        errors["sort_by"] = f"sort_by must be one of {VALID_SORT_FIELDS}"
+ 
+    if order not in VALID_ORDERS:
+        errors["order"] = f"order must be one of {VALID_ORDERS}"
+ 
+    return (len(errors) == 0), errors, sort_by, order
+ 
