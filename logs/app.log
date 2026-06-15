@@ -1,0 +1,25 @@
+2026-06-15 13:26:55,370 [INFO] werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.225:5000
+2026-06-15 13:26:55,370 [INFO] werkzeug: [33mPress CTRL+C to quit[0m
+2026-06-15 13:26:55,371 [INFO] werkzeug:  * Restarting with stat
+2026-06-15 13:26:55,820 [WARNING] werkzeug:  * Debugger is active!
+2026-06-15 13:26:55,832 [INFO] werkzeug:  * Debugger PIN: 105-040-775
+2026-06-15 13:27:53,338 [INFO] werkzeug:  * Detected change in '/home/w3e10/assignments/assignment7/project/routes/deal_routes.py', reloading
+2026-06-15 13:27:53,551 [INFO] werkzeug:  * Restarting with stat
+2026-06-15 13:27:54,135 [WARNING] werkzeug:  * Debugger is active!
+2026-06-15 13:27:54,138 [INFO] werkzeug:  * Debugger PIN: 105-040-775
+2026-06-15 13:30:57,144 [INFO] werkzeug: 127.0.0.1 - - [15/Jun/2026 13:30:57] "[35m[1mPOST /deals HTTP/1.1[0m" 201 -
+2026-06-15 13:31:02,112 [INFO] werkzeug: 127.0.0.1 - - [15/Jun/2026 13:31:02] "[35m[1mPOST /deals HTTP/1.1[0m" 201 -
+2026-06-15 13:32:04,277 [INFO] werkzeug: 127.0.0.1 - - [15/Jun/2026 13:32:04] "[33mGET /deal/ssearch?destination=dubai HTTP/1.1[0m" 404 -
+2026-06-15 13:33:07,401 [INFO] travel_deal_api: Search performed: params={'destination': 'dubai'}, results=7
+2026-06-15 13:33:07,402 [INFO] werkzeug: 127.0.0.1 - - [15/Jun/2026 13:33:07] "GET /deals/search?destination=dubai HTTP/1.1" 200 -
+2026-06-15 13:33:19,127 [INFO] travel_deal_api: Search performed: params={'destination': 'dub'}, results=7
+2026-06-15 13:33:19,128 [INFO] werkzeug: 127.0.0.1 - - [15/Jun/2026 13:33:19] "GET /deals/search?destination=dub HTTP/1.1" 200 -
+2026-06-15 13:33:27,466 [INFO] travel_deal_api: Search performed: params={'destination': 'aus'}, results=1
+2026-06-15 13:33:27,467 [INFO] werkzeug: 127.0.0.1 - - [15/Jun/2026 13:33:27] "GET /deals/search?destination=aus HTTP/1.1" 200 -
+2026-06-15 13:36:51,392 [INFO] werkzeug:  * Detected change in '/home/w3e10/assignments/assignment7/project/services/deal_service.py', reloading
+2026-06-15 13:36:51,573 [INFO] werkzeug:  * Restarting with stat
+2026-06-15 13:36:52,456 [WARNING] werkzeug:  * Debugger is active!
+2026-06-15 13:36:52,462 [INFO] werkzeug:  * Debugger PIN: 105-040-775

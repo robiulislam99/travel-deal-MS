@@ -48,3 +48,74 @@ def get_deal_by_id(deal_id):
     """Return a single deal by id, or None if not found."""
     deal = Deal.query.get(deal_id)
     return deal.to_dict() if deal else None
+
+
+
+
+# -------------------- Part 02: Reusable Query Builder --------------------
+
+def build_deal_query(filters=None):
+    """
+    Build a single reusable SQLAlchemy query for the Deal model.
+
+    Supported filter keys (all optional):
+      - destination  : partial, case-insensitive match
+      - platform     : partial, case-insensitive match
+      - travel_type  : exact match
+      - min_price    : price >= min_price
+      - max_price    : price <= max_price
+      - sort_by      : column name to order by
+      - order        : 'asc' or 'desc'
+
+    This single function is shared by search, filter and sort endpoints
+    to avoid duplicate filtering logic.
+    """
+    filters = filters or {}
+    query = Deal.query
+
+    if filters.get("destination"):
+        query = query.filter(Deal.destination.ilike(f"%{filters['destination']}%"))
+
+    if filters.get("platform"):
+        query = query.filter(Deal.platform.ilike(f"%{filters['platform']}%"))
+
+    if filters.get("travel_type"):
+        query = query.filter(Deal.travel_type == filters["travel_type"])
+
+    if filters.get("min_price") is not None:
+        query = query.filter(Deal.price >= filters["min_price"])
+
+    if filters.get("max_price") is not None:
+        query = query.filter(Deal.price <= filters["max_price"])
+
+    sort_by = filters.get("sort_by")
+    if sort_by:
+        column = getattr(Deal, sort_by)
+        column = column.desc() if filters.get("order") == "desc" else column.asc()
+        query = query.order_by(column)
+
+    return query
+
+
+# -------------------- Part 02: Search / Filter / Sort --------------------
+
+def search_deals(filters):
+    """Search deals by destination/platform/travel_type (partial, case-insensitive)."""
+    query = build_deal_query(filters)
+    return [deal.to_dict() for deal in query.all()]
+
+
+def filter_deals_by_price(min_price, max_price):
+    """Filter deals by price range."""
+    filters = {"min_price": min_price, "max_price": max_price}
+    query = build_deal_query(filters)
+    return [deal.to_dict() for deal in query.all()]
+
+
+def sort_deals(sort_by, order):
+    """Return all deals sorted by the given field and order."""
+    filters = {"sort_by": sort_by, "order": order}
+    query = build_deal_query(filters)
+    return [deal.to_dict() for deal in query.all()]
+
+

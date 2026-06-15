@@ -1,7 +1,14 @@
 from flask import Blueprint, request
 from services import deal_service
-from utils.validators import validate_deal_data, validate_deal_id
+from utils.validators import (
+    validate_deal_data,
+    validate_deal_id,
+    validate_search_params,
+    validate_filter_params,
+    validate_sort_params,
+)
 from utils.responses import success_response, error_response
+from utils.logger import logger
 
 deals_bp = Blueprint("deals", __name__)
 
@@ -46,3 +53,39 @@ def get_deal(deal_id):
         return success_response(data=deal, message="Deal retrieved successfully", status_code=200)
     except Exception as e:
         return error_response(message="Failed to retrieve deal", errors=str(e), status_code=500)
+
+
+    
+# searching 
+@deals_bp.route("/deals/search", methods=["GET"])
+def search_deals_route():
+    """
+    Search deals by destination, platform and/or travel_type.
+    Supports partial, case-insensitive matching.
+    """
+    args = request.args
+
+    is_valid, errors = validate_search_params(args)
+    if not is_valid:
+        logger.warning(f"Invalid search request: params={dict(args)}, errors={errors}")
+        return error_response(message="Validation failed", errors=errors, status_code=400)
+
+    filters = {
+        "destination": args.get("destination"),
+        "platform": args.get("platform"),
+        "travel_type": args.get("travel_type"),
+    }
+
+    try:
+        deals = deal_service.search_deals(filters)
+        logger.info(f"Search performed: params={dict(args)}, results={len(deals)}")
+
+        if not deals:
+            return success_response(
+                data=[], message="No deals found matching the search criteria", status_code=200
+            )
+
+        return success_response(data=deals, message="Deals retrieved successfully", status_code=200)
+    except Exception as e:
+        logger.error(f"Search request failed: {e}")
+        return error_response(message="Failed to search deals", errors=str(e), status_code=500)
