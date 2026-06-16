@@ -31,3 +31,24 @@ class RecentView(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     deal_id = db.Column(db.Integer, db.ForeignKey("deals.id"), nullable=False)
     viewed_at = db.Column(db.DateTime, server_default=db.func.now())
+
+
+class SearchLog(db.Model):
+    """Tracks every search performed via GET /deals/search, used for 'most searched destination'."""
+    __tablename__ = "search_logs"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    destination = db.Column(db.String, nullable=True)
+    searched_at = db.Column(db.DateTime, server_default=db.func.now())
+
+
+class ApiRequestLog(db.Model):
+    """Tracks every API request for overall usage statistics (GET /stats)."""
+    __tablename__ = "api_request_logs"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    endpoint = db.Column(db.String, nullable=False)
+    method = db.Column(db.String, nullable=False)
+    status_code = db.Column(db.Integer, nullable=False)
+    is_success = db.Column(db.Boolean, nullable=False)
+    requested_at = db.Column(db.DateTime, server_default=db.func.now())
