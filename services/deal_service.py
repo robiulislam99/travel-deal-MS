@@ -172,3 +172,24 @@ def delete_deal(deal_id):
     db.session.delete(deal)
     db.session.commit()
     return True
+
+# -------------------- Part 03: Most Viewed Deals --------------------
+
+def get_most_viewed_deals(limit=5):
+    """Return deals ordered by total number of views (most viewed first)."""
+    results = (
+        db.session.query(Deal, db.func.count(RecentView.id).label("view_count"))
+        .join(RecentView, Deal.id == RecentView.deal_id)
+        .group_by(Deal.id)
+        .order_by(db.desc("view_count"))
+        .limit(limit)
+        .all()
+    )
+
+    deals = []
+    for deal, view_count in results:
+        deal_dict = deal.to_dict()
+        deal_dict["view_count"] = view_count
+        deals.append(deal_dict)
+
+    return deals
