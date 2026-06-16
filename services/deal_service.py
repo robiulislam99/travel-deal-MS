@@ -2,7 +2,7 @@ from database.db import db
 from database.models import Deal, RecentView
 
 
-# -------------------- Part 01: Core CRUD --------------------
+# -------------------- Part 01: Create and Get Deals --------------------
 
 def create_deal(data):
     """Insert a new travel deal into the database and return it."""
@@ -130,6 +130,66 @@ def get_recently_viewed_deals(limit=5):
     for deal, last_viewed in results:
         deal_dict = deal.to_dict()
         deal_dict["last_viewed_at"] = last_viewed.isoformat() if last_viewed else None
+        deals.append(deal_dict)
+
+    return deals
+
+
+# --------------------- Part 03: Update and Delete --------------------
+ 
+UPDATABLE_FIELDS = ["destination", "price", "platform", "rating", "travel_type"]
+ 
+ 
+def update_deal(deal_id, data):
+    """
+    Update only the provided fields of a deal (partial update).
+    Returns the updated deal dict, or None if the deal doesn't exist.
+    """
+    deal = Deal.query.get(deal_id)
+    if deal is None:
+        return None
+ 
+    for field in UPDATABLE_FIELDS:
+        if field in data:
+            value = data[field]
+            if field == "destination" and isinstance(value, str):
+                value = value.strip()
+            setattr(deal, field, value)
+ 
+    db.session.commit()
+    return deal.to_dict()
+ 
+ 
+def delete_deal(deal_id):
+    """
+    Delete a deal by id. Returns True if deleted, False if it didn't exist.
+    Safely handles missing data - no exception if deal_id is not found.
+    """
+    deal = Deal.query.get(deal_id)
+    if deal is None:
+        return False
+ 
+    db.session.delete(deal)
+    db.session.commit()
+    return True
+
+# -------------------- Part 03: Most Viewed Deals --------------------
+
+def get_most_viewed_deals(limit=5):
+    """Return deals ordered by total number of views (most viewed first)."""
+    results = (
+        db.session.query(Deal, db.func.count(RecentView.id).label("view_count"))
+        .join(RecentView, Deal.id == RecentView.deal_id)
+        .group_by(Deal.id)
+        .order_by(db.desc("view_count"))
+        .limit(limit)
+        .all()
+    )
+
+    deals = []
+    for deal, view_count in results:
+        deal_dict = deal.to_dict()
+        deal_dict["view_count"] = view_count
         deals.append(deal_dict)
 
     return deals
