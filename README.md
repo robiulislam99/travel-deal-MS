@@ -2,6 +2,12 @@
 
 A Flask + SQLite REST API for managing travel deals, with search, filtering, sorting, update/delete operations, popularity tracking, and usage statistics.
 
+## Tech Stack
+
+* **Backend Framework:** Flask (Python) — Lightweight WSGI web application framework
+* **Database ORM:** Flask-SQLAlchemy — Simplifies database interactions using Object-Relational Mapping
+* **Database Engine:** SQLite — Serverless, self-contained relational database management system
+
 ## Project Structure
 ```
 travel-deal-MS/
