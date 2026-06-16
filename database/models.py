@@ -23,6 +23,7 @@ class Deal(db.Model):
             "created_at": self.created_at.isoformat() if self.created_at else None,
         }
 
+#---------------------Part 2 additions---------------------
 
 class RecentView(db.Model):
     """Tracks every time a single deal is viewed via GET /deals/<id>."""
@@ -32,6 +33,7 @@ class RecentView(db.Model):
     deal_id = db.Column(db.Integer, db.ForeignKey("deals.id"), nullable=False)
     viewed_at = db.Column(db.DateTime, server_default=db.func.now())
 
+#---------------------Part 3 additions---------------------
 
 class SearchLog(db.Model):
     """Tracks every search performed via GET /deals/search, used for 'most searched destination'."""
