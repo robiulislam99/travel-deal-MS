@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "Travel Deal API - Part 02",
+    "name": "Travel Deal API - All Endpoints",
     "_postman_id": "8c1d2f11-2f3a-4b2c-9c11-abcdef123456",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
@@ -54,6 +54,111 @@
       "name": "Get Single Deal - Invalid ID",
       "request": {
         "method": "GET",
+        "url": "http://localhost:5000/deals/abc"
+      }
+    },
+    {
+      "name": "Update Deal - Partial (price only)",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"price\": 5500\n}"
+        },
+        "url": "http://localhost:5000/deals/1"
+      }
+    },
+    {
+      "name": "Update Deal - Multiple Fields",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"price\": 6000,\n  \"rating\": 4.8\n}"
+        },
+        "url": "http://localhost:5000/deals/1"
+      }
+    },
+    {
+      "name": "Update Deal - Invalid Price (Error)",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"price\": -100\n}"
+        },
+        "url": "http://localhost:5000/deals/1"
+      }
+    },
+    {
+      "name": "Update Deal - Invalid travel_type (Error)",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"travel_type\": \"Cheap\"\n}"
+        },
+        "url": "http://localhost:5000/deals/1"
+      }
+    },
+    {
+      "name": "Update Deal - Empty Body (Error)",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": "http://localhost:5000/deals/1"
+      }
+    },
+    {
+      "name": "Update Deal - Not Found",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"price\": 1000\n}"
+        },
+        "url": "http://localhost:5000/deals/9999"
+      }
+    },
+    {
+      "name": "Update Deal - Invalid ID",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"price\": 1000\n}"
+        },
+        "url": "http://localhost:5000/deals/abc"
+      }
+    },
+    {
+      "name": "Delete Deal",
+      "request": {
+        "method": "DELETE",
+        "url": "http://localhost:5000/deals/2"
+      }
+    },
+    {
+      "name": "Delete Deal - Not Found",
+      "request": {
+        "method": "DELETE",
+        "url": "http://localhost:5000/deals/9999"
+      }
+    },
+    {
+      "name": "Delete Deal - Invalid ID",
+      "request": {
+        "method": "DELETE",
         "url": "http://localhost:5000/deals/abc"
       }
     },
@@ -167,6 +272,20 @@
       "request": {
         "method": "GET",
         "url": "http://localhost:5000/deals/recent"
+      }
+    },
+    {
+      "name": "Most Viewed (Popular) Deals",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/deals/popular"
+      }
+    },
+    {
+      "name": "API Usage Statistics",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/stats"
       }
     }
   ]
