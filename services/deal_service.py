@@ -2,7 +2,7 @@ from database.db import db
 from database.models import Deal, RecentView
 
 
-# -------------------- Part 01: Core CRUD --------------------
+# -------------------- Part 01: Create and Get Deals --------------------
 
 def create_deal(data):
     """Insert a new travel deal into the database and return it."""
@@ -133,3 +133,42 @@ def get_recently_viewed_deals(limit=5):
         deals.append(deal_dict)
 
     return deals
+
+
+# --------------------- Part 03: Update and Delete --------------------
+ 
+UPDATABLE_FIELDS = ["destination", "price", "platform", "rating", "travel_type"]
+ 
+ 
+def update_deal(deal_id, data):
+    """
+    Update only the provided fields of a deal (partial update).
+    Returns the updated deal dict, or None if the deal doesn't exist.
+    """
+    deal = Deal.query.get(deal_id)
+    if deal is None:
+        return None
+ 
+    for field in UPDATABLE_FIELDS:
+        if field in data:
+            value = data[field]
+            if field == "destination" and isinstance(value, str):
+                value = value.strip()
+            setattr(deal, field, value)
+ 
+    db.session.commit()
+    return deal.to_dict()
+ 
+ 
+def delete_deal(deal_id):
+    """
+    Delete a deal by id. Returns True if deleted, False if it didn't exist.
+    Safely handles missing data - no exception if deal_id is not found.
+    """
+    deal = Deal.query.get(deal_id)
+    if deal is None:
+        return False
+ 
+    db.session.delete(deal)
+    db.session.commit()
+    return True
