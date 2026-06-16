@@ -5,27 +5,27 @@ A Flask + SQLite REST API for managing travel deals, with search, filtering, sor
 ## Project Structure
 ```
 travel-deal-MS/
-├── app.py                  # App entry point, blueprint registration, error handlers
-├── config.py                # App configuration (DB URI, etc.)
+├── app.py                    # App entry point, blueprint registration, error handlers
+├── config.py                 # App configuration (DB URI, etc.)
 ├── routes/
-│   ├── deal_routes.py       # Deal-related API endpoints (Blueprint)
-│   └── stats_routes.py      # Usage statistics endpoint (Blueprint)
+│   ├── deal_routes.py        # Deal-related API endpoints (Blueprint)
+│   └── stats_routes.py       # Usage statistics endpoint (Blueprint)
 ├── services/
-│   ├── deal_service.py      # Deal business logic (CRUD, search, filter, sort, views)
-│   └── stats_service.py     # Usage statistics business logic
+│   ├── deal_service.py       # Deal business logic (CRUD, search, filter, sort, views)
+│   └── stats_service.py      # Usage statistics business logic
 ├── utils/
-│   ├── validators.py        # Reusable validation functions (create & update share rules)
-│   ├── responses.py         # Standard JSON response helpers
+│   ├── validators.py         # Reusable validation functions (create & update share rules)
+│   ├── responses.py          # Standard JSON response helpers
 │   ├── logger.py             # Centralized logging configuration
 │   └── stats_tracker.py      # Reusable decorator that auto-logs every API request
 ├── database/
 │   ├── db.py                 # SQLAlchemy instance & table creation
 │   └── models.py             # ORM models (Deal, RecentView, SearchLog, ApiRequestLog)
 ├── logs/
-│   └── app.log                # Generated automatically at runtime
-├── requirements.txt
-├── postman_collection.json
-└── README.md
+│   └── app.log               # Generated automatically at runtime
+├── requirements.txt          # Project dependencies and package versions
+├── postman_collection.json   # Pre-configured Postman collection for API testing
+└── README.md                 # Project documentation and setup guide
 
 ```
 
