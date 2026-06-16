@@ -2,13 +2,13 @@ from flask import Flask
 from config import Config
 from utils.logger import logger  # noqa: F401 - configures logging on import
 from routes.deal_routes import deals_bp
+from routes.stats_routes import stats_bp
 from database.db import init_db
 from utils.responses import error_response
 
 
 def create_app():
     app = Flask(__name__)
-
     app.config.from_object(Config)
 
 
@@ -17,6 +17,7 @@ def create_app():
 
     # Register the deals blueprint (routes layer)
     app.register_blueprint(deals_bp)
+    app.register_blueprint(stats_bp)
 
     # Global error handlers for consistent JSON error responses
     @app.errorhandler(404)
