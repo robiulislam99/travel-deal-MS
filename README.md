@@ -39,8 +39,8 @@ travel-deal-MS/
 
 ### 1. Clone the project
 ```bash
-git clone https://github.com/robiulislam99/travel-deal-MS.git
-cd travel-deal-MS
+git clone https://github.com/robiulislam99/Md_Robiul_Islam-travel-deal-MS.git
+cd Md_Robiul_Islam-travel-deal-MS
 ```
 
 ### 2. Create and activate a virtual environment
